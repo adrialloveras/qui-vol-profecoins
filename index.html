@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUI VOL PROFECOINS?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .pantalla {
+            display: none;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: fadeIn 0.5s;
+        }
+
+        .pantalla.activa {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: #667eea;
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #764ba2;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"], input[type="password"], input[type="number"] {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #764ba2;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: white;
+        }
+
+        .btn-principal {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .btn-principal:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secundari {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .btn-secundari:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4);
+        }
+
+        .btn-nivell {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            margin: 15px 0;
+            padding: 20px;
+            font-size: 20px;
+        }
+
+        .btn-nivell:hover:not(:disabled) {
+            transform: scale(1.05);
+        }
+
+        .btn-nivell:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .btn-resposta {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            margin: 10px 0;
+            padding: 15px;
+        }
+
+        .btn-resposta:hover {
+            transform: scale(1.02);
+        }
+
+        .btn-resposta.correcte {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            animation: pulse 0.5s;
+        }
+
+        .btn-resposta.incorrecte {
+            background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+            animation: shake 0.5s;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .info-barra {
+            display: flex;
+            justify-content: space-around;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .info-item {
+            text-align: center;
+        }
+
+        .info-item span {
+            display: block;
+            font-size: 24px;
+            color: #764ba2;
+        }
+
+        .pregunta-text {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-size: 18px;
+            text-align: center;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .pista-box {
+            background: #fff9e6;
+            border: 2px solid #ffd700;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            display: none;
+        }
+
+        .pista-box.visible {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        .instruccions {
+            background: #f0f0f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            line-height: 1.8;
+        }
+
+        .ranking-item {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .ranking-item.primer {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            font-size: 20px;
+        }
+
+        .ranking-item.segon {
+            background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 100%);
+        }
+
+        .ranking-item.tercer {
+            background: linear-gradient(135deg, #cd7f32 0%, #d4a574 100%);
+        }
+
+        .error-msg {
+            background: #ff6b6b;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            text-align: center;
+            display: none;
+        }
+
+        .error-msg.visible {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        .upload-area {
+            border: 3px dashed #667eea;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .upload-area input[type="file"] {
+            margin: 15px 0;
+        }
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 300px;
+            margin: 15px 0;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .preview-image.visible {
+            display: block;
+        }
+
+        .candau {
+            font-size: 30px;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .explicacio-final {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .control-volum {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            display: none;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .control-volum.visible {
+            display: flex;
+        }
+
+        .control-volum button {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            margin: 0;
+            font-size: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .control-volum button:hover {
+            transform: scale(1.1);
+        }
+
+        .control-volum input[type="range"] {
+            width: 120px;
+            height: 6px;
+            margin: 0;
+            padding: 0;
+            -webkit-appearance: none;
+            appearance: none;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 5px;
+            outline: none;
+        }
+
+        .control-volum input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid #667eea;
+            cursor: pointer;
+        }
+
+        .control-volum input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid #667eea;
+            cursor: pointer;
+        }
+
+        .volum-icon {
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PANTALLA 1: INICI -->
+    <div id="pantallaInici" class="pantalla activa">
+        <div class="logo">🎮</div>
+        <h1>QUI VOL PROFECOINS?</h1>
+        <button class="btn-principal" onclick="mostrarLogin()">Iniciar sessió</button>
+        <button class="btn-secundari" onclick="mostrarRegistre()">Registrar-se</button>
+    </div>
+
+    <!-- AUDIO DE FONS -->
+    <audio id="musicaFons" loop>
+        <source src="https://firebasestorage.googleapis.com/v0/b/qui-vol-profecoins-742e3.firebasestorage.app/o/to-frighten-121407.mp3?alt=media&token=1b9e5ab6-0e92-4e56-a439-a3b9d6d52991" type="audio/mpeg">
+    </audio>
+
+    <!-- CONTROL DE VOLUM -->
+    <div class="control-volum" id="controlVolum">
+        <button onclick="mutarMusica()" id="btnMute">
+            <span id="volumIcon" class="volum-icon">🔊</span>
+        </button>
+        <input type="range" id="rangeVolum" min="0" max="100" value="30" oninput="canviarVolum(this.value)">
+        <span id="volumPercentatge" style="font-weight: bold; color: #667eea; min-width: 35px;">30%</span>
+    </div>
+
+    <!-- PANTALLA LOGIN -->
+    <div id="pantallaLogin" class="pantalla">
+        <h2>Iniciar Sessió</h2>
+        <input type="text" id="loginNom" placeholder="Nom" />
+        <input type="password" id="loginPin" placeholder="PIN (4 dígits)" maxlength="4" />
+        <div class="error-msg" id="errorLogin"></div>
+        <button class="btn-principal" onclick="ferLogin()">Entrar</button>
+        <button class="btn-secundari" onclick="tornarInici()">Tornar</button>
+    </div>
+
+    <!-- PANTALLA REGISTRE -->
+    <div id="pantallaRegistre" class="pantalla">
+        <h2>Registrar-se</h2>
+        <input type="text" id="registreNom" placeholder="Nom" />
+        <input type="password" id="registrePin" placeholder="PIN (4 dígits)" maxlength="4" />
+        <div class="error-msg" id="errorRegistre"></div>
+        <button class="btn-principal" onclick="ferRegistre()">Registrar</button>
+        <button class="btn-secundari" onclick="tornarInici()">Tornar</button>
+    </div>
+
+    <!-- PANTALLA 2: SELECCIÓ DE NIVELL -->
+    <div id="pantallaSeleccioNivell" class="pantalla">
+        <h1>Selecciona un Nivell</h1>
+        <button class="btn-nivell" onclick="mostrarInstruccions()">📍 Nivell 1: Big Cities</button>
+        <button class="btn-nivell" disabled><span class="candau">🔒</span> Nivell 2: Aquest nivell encara no està disponible</button>
+        <button class="btn-nivell" disabled><span class="candau">🔒</span> Nivell 3: Aquest nivell encara no està disponible</button>
+        <button class="btn-nivell" disabled><span class="candau">🔒</span> Nivell 4: Aquest nivell encara no està disponible</button>
+        <button class="btn-nivell" disabled><span class="candau">🔒</span> Nivell 5: Aquest nivell encara no està disponible</button>
+        <button class="btn-nivell" disabled><span class="candau">🔒</span> Nivell 6: Aquest nivell encara no està disponible</button>
+    </div>
+
+    <!-- PANTALLA 3: INSTRUCCIONS -->
+    <div id="pantallaInstruccions" class="pantalla">
+        <h2>📘 Instruccions del Joc</h2>
+        <div class="instruccions">
+            <p>En aquest nivell hauràs de respondre <strong>10 preguntes</strong> sobre ciutats i rebràs <strong>PROFECOINS</strong>:</p>
+            <ul>
+                <li>✅ <strong>+1000</strong> per encert</li>
+                <li>❌ <strong>-300</strong> per error</li>
+                <li>💡 <strong>-250</strong> per pista</li>
+            </ul>
+            <p style="margin-top: 15px;">Tens només <strong>3 pistes</strong> per tot el joc.</p>
+            <p style="margin-top: 15px;">Entre les preguntes 5 i 6 apareixerà una <strong>pregunta bonus</strong> on hauràs de pujar una foto d'una ciutat on t'agradaria viatjar (<strong>+100 profecoins</strong>).</p>
+        </div>
+        <button class="btn-principal" onclick="començarJoc()">Començar</button>
+    </div>
+
+    <!-- PANTALLA PREGUNTA -->
+    <div id="pantallaPregunta" class="pantalla">
+        <div class="info-barra">
+            <div class="info-item">
+                <div>Pregunta</div>
+                <span id="numPregunta">1/10</span>
+            </div>
+            <div class="info-item">
+                <div>💰 Profecoins</div>
+                <span id="profecoinsActuals">0</span>
+            </div>
+            <div class="info-item">
+                <div>💡 Pistes</div>
+                <span id="pistesRestants">3</span>
+            </div>
+        </div>
+        
+        <div class="pregunta-text" id="textPregunta"></div>
+        
+        <div class="pista-box" id="pistaBox">
+            <strong>💡 Pista:</strong> <span id="textPista"></span>
+        </div>
+        
+        <div id="opcionsResposta"></div>
+        
+        <button class="btn-secundari" id="btnPista" onclick="comprarPista()">💡 Comprar pista (-250 profecoins)</button>
+    </div>
+
+    <!-- PANTALLA BONUS FOTO -->
+    <div id="pantallaBonus" class="pantalla">
+        <h2>🎁 Pregunta Bonus!</h2>
+        <div class="info-barra">
+            <div class="info-item">
+                <div>💰 Profecoins</div>
+                <span id="profecoinsBonus">0</span>
+            </div>
+        </div>
+        <div class="instruccions">
+            <p style="text-align: center; font-size: 18px;">Puja una foto d'una ciutat on t'agradaria viatjar i guanya <strong>+100 profecoins</strong>! 🌍✈️</p>
+        </div>
+        <div class="upload-area" id="uploadArea">
+            <p>📸 Selecciona una imatge</p>
+            <input type="file" id="inputFoto" accept="image/*" onchange="previsualitzarImatge()">
+            <img id="previewImatge" class="preview-image" />
+        </div>
+        <button class="btn-principal" id="btnEnviarFoto" onclick="pujarFoto()">Enviar foto</button>
+        <button class="btn-secundari" id="btnContinuarBonus" onclick="continuarDespresBonus()" style="display: none;">Continuar amb les preguntes</button>
+    </div>
+
+    <!-- PANTALLA FINAL -->
+    <div id="pantallaFinal" class="pantalla">
+        <h1>🏁 Joc Finalitzat!</h1>
+        <div class="explicacio-final">
+            <p>Has aconseguit <strong id="profecoinsFinals">0</strong> PROFECOINS! 🎉</p>
+        </div>
+        <h2>🏆 Rànking</h2>
+        <div id="rankingLlista"></div>
+        <div class="instruccions" style="margin-top: 20px;">
+            <p style="text-align: center;">Consulta amb el professor què pots comprar amb els teus profecoins.</p>
+        </div>
+        <button class="btn-principal" onclick="tornarInici()">Tornar a l'inici</button>
+    </div>
+
+    <!-- CONFIGURACIÓ DE FIREBASE -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyDBLj-vZabPdBHZG3hZ_UTT3mLl1BJGiN4",
+            authDomain: "qui-vol-profecoins-742e3.firebaseapp.com",
+            projectId: "qui-vol-profecoins-742e3",
+            storageBucket: "qui-vol-profecoins-742e3.firebasestorage.app",
+            messagingSenderId: "17808140166",
+            appId: "1:17808140166:web:b19ac9362b69c7a62b6e07",
+            measurementId: "G-M2TMX71SQ4"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        window.firebaseApp = app;
+    </script>
+
+    <script type="module">
+        // Imports de Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+        import { getFirestore, collection, doc, getDoc, setDoc, updateDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-storage.js";
+
+        // Variables globals de Firebase
+        let db, storage;
+        
+        // Funció per esperar que Firebase estigui inicialitzat
+        function esperarFirebase() {
+            return new Promise((resolve) => {
+                const checkFirebase = setInterval(() => {
+                    if (window.firebaseApp) {
+                        db = getFirestore(window.firebaseApp);
+                        storage = getStorage(window.firebaseApp);
+                        clearInterval(checkFirebase);
+                        resolve();
+                    }
+                }, 100);
+            });
+        }
+
+        // Variables globals
+        window.usuariActual = null;
+        window.preguntaActual = 0;
+        window.profecoins = 0;
+        window.pistesRestants = 3;
+        window.pistaComprada = false;
+        window.bonusComplet = false;
+        window.jocComplet = false;
+
+        // Preguntes del joc
+        const preguntes = [
+            {
+                pregunta: "Quina ciutat és reconeguda per acollir la major indústria de cinema del món?",
+                opcions: ["Los Angeles", "París", "Canberra", "Nova York"],
+                correcta: 0,
+                pista: "Se situa als Estats Units i conté el famós barri de Hollywood."
+            },
+            {
+                pregunta: "Esparta es va enfrontar amb…",
+                opcions: ["Roma", "Empúries", "Constantinoble", "Atenes"],
+                correcta: 3,
+                pista: "És l'actual capital de Grècia."
+            },
+            {
+                pregunta: "Ciutat dividida per un mur després de la 2a Guerra Mundial:",
+                opcions: ["Berlín", "Budapest", "Varsòvia", "Moscou"],
+                correcta: 0,
+                pista: "La bandera del país és negra, vermella i groga."
+            },
+            {
+                pregunta: "Una ciutat que és l'únic que hi ha al seu país:",
+                opcions: ["Liechtenstein", "Singapur", "Bangkok", "Santo Domingo"],
+                correcta: 1,
+                pista: "Ciutat asiàtica, molt rica, mateix nom que el país."
+            },
+            {
+                pregunta: "On hi ha el Crist Redemptor:",
+                opcions: ["Buenos Aires", "Nairobi", "Rio de Janeiro", "Astanà"],
+                correcta: 2,
+                pista: "És a Amèrica del Sud i no s'hi parla espanyol."
+            },
+            {
+                pregunta: "Quina ciutat rebia el nom romà Gerunda?",
+                opcions: ["Girona", "Granada", "Gandía", "Giza"],
+                correcta: 0,
+                pista: "La tens ben a prop."
+            },
+            {
+                pregunta: "Capital de l'amor:",
+                opcions: ["Seúl", "Honolulu", "Mumbai", "París"],
+                correcta: 3,
+                pista: "Són els nostres veïns i els encanten les baguettes."
+            },
+            {
+                pregunta: "Si vols descobrir Àfrica, on volaries?",
+                opcions: ["Abuja", "Manila", "Helsinki", "Bratislava"],
+                correcta: 0,
+                pista: "És la capital de Nigèria."
+            },
+            {
+                pregunta: "Ciutat més poblada del món:",
+                opcions: ["Beijing", "Barcelona", "Londres", "Tokio"],
+                correcta: 3,
+                pista: "Famosa, entre altres coses, pel manga."
+            },
+            {
+                pregunta: "On és l'òpera més famosa del món?",
+                opcions: ["Figueres", "Sydney", "Miami", "Daca"],
+                correcta: 1,
+                pista: "La ciutat més coneguda del seu país tot i que no n'és la capital."
+            }
+        ];
+
+        // Funcions de navegació
+        window.mostrarPantalla = function(idPantalla) {
+            document.querySelectorAll('.pantalla').forEach(p => p.classList.remove('activa'));
+            document.getElementById(idPantalla).classList.add('activa');
+        };
+
+        window.iniciarMusica = function() {
+            const musica = document.getElementById('musicaFons');
+            musica.volume = 0.3; // Volum al 30%
+            musica.play().catch(error => {
+                console.log("No es pot reproduir l'àudio automàticament:", error);
+            });
+            // Mostrar control de volum
+            document.getElementById('controlVolum').classList.add('visible');
+        };
+
+        window.canviarVolum = function(valor) {
+            const musica = document.getElementById('musicaFons');
+            musica.volume = valor / 100;
+            document.getElementById('volumPercentatge').textContent = valor + '%';
+            
+            // Canviar icona segons el volum
+            const icon = document.getElementById('volumIcon');
+            if (valor == 0) {
+                icon.textContent = '🔇';
+            } else if (valor < 50) {
+                icon.textContent = '🔉';
+            } else {
+                icon.textContent = '🔊';
+            }
+        };
+
+        window.mutarMusica = function() {
+            const musica = document.getElementById('musicaFons');
+            const range = document.getElementById('rangeVolum');
+            const icon = document.getElementById('volumIcon');
+            
+            if (musica.volume > 0) {
+                // Guardar el volum actual i mutar
+                window.volumAnterior = musica.volume;
+                musica.volume = 0;
+                range.value = 0;
+                document.getElementById('volumPercentatge').textContent = '0%';
+                icon.textContent = '🔇';
+            } else {
+                // Restaurar volum anterior
+                const volumRestaurar = window.volumAnterior || 0.3;
+                musica.volume = volumRestaurar;
+                range.value = volumRestaurar * 100;
+                document.getElementById('volumPercentatge').textContent = Math.round(volumRestaurar * 100) + '%';
+                icon.textContent = volumRestaurar < 0.5 ? '🔉' : '🔊';
+            }
+        };
+
+        window.mostrarLogin = function() {
+            iniciarMusica();
+            mostrarPantalla('pantallaLogin');
+        };
+
+        window.mostrarRegistre = function() {
+            iniciarMusica();
+            mostrarPantalla('pantallaRegistre');
+        };
+
+        window.tornarInici = function() {
+            window.usuariActual = null;
+            window.preguntaActual = 0;
+            window.profecoins = 0;
+            window.pistesRestants = 3;
+            window.bonusComplet = false;
+            window.jocComplet = false;
+            mostrarPantalla('pantallaInici');
+        };
+
+        // Funcions de Firebase
+        window.ferRegistre = async function() {
+            const nom = document.getElementById('registreNom').value.trim();
+            const pin = document.getElementById('registrePin').value.trim();
+            const errorDiv = document.getElementById('errorRegistre');
+
+            if (!nom || !pin) {
+                errorDiv.textContent = "Si us plau, omple tots els camps";
+                errorDiv.classList.add('visible');
+                return;
+            }
+
+            if (pin.length !== 4 || isNaN(pin)) {
+                errorDiv.textContent = "El PIN ha de tenir exactament 4 dígits";
+                errorDiv.classList.add('visible');
+                return;
+            }
+
+            try {
+                await esperarFirebase();
+                
+                const docRef = doc(db, "alumnes", nom);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    errorDiv.textContent = "Aquest nom ja està registrat";
+                    errorDiv.classList.add('visible');
+                    return;
+                }
+
+                await setDoc(docRef, {
+                    nom: nom,
+                    pin: pin,
+                    profecoins: 0,
+                    pistesRestants: 3,
+                    nivellsSuperats: [],
+                    preguntaActual: 0,
+                    bonusComplet: false,
+                    jocComplet: false
+                });
+
+                errorDiv.classList.remove('visible');
+                window.usuariActual = nom;
+                window.profecoins = 0;
+                window.pistesRestants = 3;
+                mostrarPantalla('pantallaSeleccioNivell');
+            } catch (error) {
+                errorDiv.textContent = "Error al registrar: " + error.message;
+                errorDiv.classList.add('visible');
+            }
+        };
+
+        window.ferLogin = async function() {
+            const nom = document.getElementById('loginNom').value.trim();
+            const pin = document.getElementById('loginPin').value.trim();
+            const errorDiv = document.getElementById('errorLogin');
+
+            if (!nom || !pin) {
+                errorDiv.textContent = "Si us plau, omple tots els camps";
+                errorDiv.classList.add('visible');
+                return;
+            }
+
+            try {
+                await esperarFirebase();
+                
+                const docRef = doc(db, "alumnes", nom);
+                const docSnap = await getDoc(docRef);
+
+                if (!docSnap.exists()) {
+                    errorDiv.textContent = "Usuari no trobat";
+                    errorDiv.classList.add('visible');
+                    return;
+                }
+
+                const data = docSnap.data();
+                if (data.pin !== pin) {
+                    errorDiv.textContent = "PIN incorrecte";
+                    errorDiv.classList.add('visible');
+                    return;
+                }
+
+                errorDiv.classList.remove('visible');
+                window.usuariActual = nom;
+                window.profecoins = data.profecoins || 0;
+                window.pistesRestants = data.pistesRestants || 3;
+                window.preguntaActual = data.preguntaActual || 0;
+                window.bonusComplet = data.bonusComplet || false;
+                window.jocComplet = data.jocComplet || false;
+                mostrarPantalla('pantallaSeleccioNivell');
+            } catch (error) {
+                errorDiv.textContent = "Error al iniciar sessió: " + error.message;
+                errorDiv.classList.add('visible');
+            }
+        };
+
+        window.mostrarInstruccions = function() {
+            // Comprovar si el joc ja està complet
+            if (window.jocComplet) {
+                // Anar directament al final
+                mostrarResultatFinal();
+                return;
+            }
+            
+            mostrarPantalla('pantallaInstruccions');
+        };
+
+        window.començarJoc = function() {
+            // Si el joc ja està complet, anar al final
+            if (window.jocComplet) {
+                mostrarResultatFinal();
+                return;
+            }
+            
+            // Si ja ha avançat preguntes, continuar des d'on estava
+            // Si no, començar des de 0
+            window.pistaComprada = false;
+            mostrarPregunta();
+        };
+
+        window.mostrarPregunta = function() {
+            // Si acabem de passar per la pregunta 5, mostrar el bonus
+            if (window.preguntaActual === 5 && !window.bonusComplet) {
+                // Mostrar pantalla bonus
+                document.getElementById('profecoinsBonus').textContent = window.profecoins;
+                mostrarPantalla('pantallaBonus');
+                return;
+            }
+
+            if (window.preguntaActual >= 10) {
+                mostrarResultatFinal();
+                return;
+            }
+
+            const pregunta = preguntes[window.preguntaActual];
+            
+            document.getElementById('numPregunta').textContent = `${window.preguntaActual + 1}/10`;
+            document.getElementById('profecoinsActuals').textContent = window.profecoins;
+            document.getElementById('pistesRestants').textContent = window.pistesRestants;
+            document.getElementById('textPregunta').textContent = pregunta.pregunta;
+            document.getElementById('textPista').textContent = pregunta.pista;
+            document.getElementById('pistaBox').classList.remove('visible');
+            window.pistaComprada = false;
+
+            const opcionsDiv = document.getElementById('opcionsResposta');
+            opcionsDiv.innerHTML = '';
+
+            pregunta.opcions.forEach((opcio, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'btn-resposta';
+                btn.textContent = opcio;
+                btn.onclick = () => comprovarResposta(index);
+                opcionsDiv.appendChild(btn);
+            });
+
+            const btnPista = document.getElementById('btnPista');
+            if (window.pistesRestants > 0 && !window.pistaComprada) {
+                btnPista.style.display = 'block';
+            } else {
+                btnPista.style.display = 'none';
+            }
+
+            mostrarPantalla('pantallaPregunta');
+        };
+
+        window.comprarPista = function() {
+            if (window.pistesRestants <= 0) {
+                alert("No tens més pistes disponibles!");
+                return;
+            }
+
+            if (window.pistaComprada) {
+                return;
+            }
+
+            if (confirm("Vols gastar 250 profecoins per comprar una pista?")) {
+                window.profecoins -= 250;
+                window.pistesRestants -= 1;
+                window.pistaComprada = true;
+
+                document.getElementById('profecoinsActuals').textContent = window.profecoins;
+                document.getElementById('pistesRestants').textContent = window.pistesRestants;
+                document.getElementById('pistaBox').classList.add('visible');
+                document.getElementById('btnPista').style.display = 'none';
+            }
+        };
+
+        window.comprovarResposta = async function(indexSeleccionat) {
+            const pregunta = preguntes[window.preguntaActual];
+            const botons = document.querySelectorAll('#opcionsResposta button');
+            
+            botons.forEach(btn => btn.disabled = true);
+
+            if (indexSeleccionat === pregunta.correcta) {
+                botons[indexSeleccionat].classList.add('correcte');
+                window.profecoins += 1000;
+            } else {
+                botons[indexSeleccionat].classList.add('incorrecte');
+                botons[pregunta.correcta].classList.add('correcte');
+                window.profecoins -= 300;
+            }
+
+            document.getElementById('profecoinsActuals').textContent = window.profecoins;
+
+            await actualitzarFirestore();
+
+            setTimeout(() => {
+                window.preguntaActual++;
+                mostrarPregunta();
+            }, 2000);
+        };
+
+        window.previsualitzarImatge = function() {
+            const input = document.getElementById('inputFoto');
+            const preview = document.getElementById('previewImatge');
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.classList.add('visible');
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        };
+
+        window.pujarFoto = async function() {
+            const input = document.getElementById('inputFoto');
+            
+            if (!input.files || !input.files[0]) {
+                alert("Si us plau, selecciona una imatge!");
+                return;
+            }
+
+            try {
+                await esperarFirebase();
+                const file = input.files[0];
+                const storageRef = ref(storage, `uploads/${window.usuariActual}/bonus.jpg`);
+                
+                await uploadBytes(storageRef, file);
+                const url = await getDownloadURL(storageRef);
+
+                window.profecoins += 100;
+
+                const docRef = doc(db, "alumnes", window.usuariActual);
+                await updateDoc(docRef, {
+                    fotoBonus: url,
+                    profecoins: window.profecoins,
+                    pistesRestants: window.pistesRestants,
+                    preguntaActual: window.preguntaActual,
+                    bonusComplet: window.bonusComplet
+                });
+
+                // Actualitzar visualització
+                document.getElementById('profecoinsBonus').textContent = window.profecoins;
+
+                // Amagar botó d'enviar i àrea de pujada
+                document.getElementById('btnEnviarFoto').style.display = 'none';
+                document.getElementById('uploadArea').style.display = 'none';
+
+                // Mostrar botó de continuar
+                document.getElementById('btnContinuarBonus').style.display = 'block';
+
+                alert("Foto pujada correctament! +100 profecoins 🎉");
+            } catch (error) {
+                alert("Error al pujar la foto: " + error.message);
+            }
+        };
+
+        window.continuarDespresBonus = function() {
+            // Restaurar visibilitat dels botons per si es torna a jugar
+            document.getElementById('btnEnviarFoto').style.display = 'block';
+            document.getElementById('uploadArea').style.display = 'block';
+            document.getElementById('btnContinuarBonus').style.display = 'none';
+            document.getElementById('inputFoto').value = '';
+            document.getElementById('previewImatge').classList.remove('visible');
+            
+            // Marcar el bonus com a complet perquè no es torni a mostrar
+            window.bonusComplet = true;
+            
+            // Continuar amb la següent pregunta (la 6, que és l'índex 5)
+            mostrarPregunta();
+        };
+
+        window.actualitzarFirestore = async function() {
+            try {
+                await esperarFirebase();
+                const docRef = doc(db, "alumnes", window.usuariActual);
+                await updateDoc(docRef, {
+                    profecoins: window.profecoins,
+                    pistesRestants: window.pistesRestants,
+                    preguntaActual: window.preguntaActual,
+                    bonusComplet: window.bonusComplet
+                });
+            } catch (error) {
+                console.error("Error actualitzant Firestore:", error);
+            }
+        };
+
+        window.mostrarResultatFinal = async function() {
+            // Marcar el joc com a complet
+            window.jocComplet = true;
+            
+            try {
+                await esperarFirebase();
+                const docRef = doc(db, "alumnes", window.usuariActual);
+                await updateDoc(docRef, {
+                    profecoins: window.profecoins,
+                    pistesRestants: window.pistesRestants,
+                    preguntaActual: window.preguntaActual,
+                    bonusComplet: window.bonusComplet,
+                    jocComplet: true
+                });
+            } catch (error) {
+                console.error("Error actualitzant Firestore:", error);
+            }
+            
+            document.getElementById('profecoinsFinals').textContent = window.profecoins;
+            
+            try {
+                await esperarFirebase();
+                const alumnesRef = collection(db, "alumnes");
+                const querySnapshot = await getDocs(alumnesRef);
+                
+                const alumnes = [];
+                querySnapshot.forEach((doc) => {
+                    alumnes.push(doc.data());
+                });
+
+                alumnes.sort((a, b) => b.profecoins - a.profecoins);
+
+                const rankingDiv = document.getElementById('rankingLlista');
+                rankingDiv.innerHTML = '';
+
+                alumnes.forEach((alumne, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'ranking-item';
+                    
+                    if (index === 0) item.classList.add('primer');
+                    else if (index === 1) item.classList.add('segon');
+                    else if (index === 2) item.classList.add('tercer');
+
+                    const posicio = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `${index + 1}.`;
+                    
+                    item.innerHTML = `
+                        <span>${posicio} ${alumne.nom}</span>
+                        <span>${alumne.profecoins} 💰</span>
+                    `;
+                    rankingDiv.appendChild(item);
+                });
+
+            } catch (error) {
+                console.error("Error carregant el rànking:", error);
+            }
+
+            mostrarPantalla('pantallaFinal');
+        };
+    </script>
+</body>
+</html>
